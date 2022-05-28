@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interactive_flutter/src/games/gameoflife/main.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,11 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Adawolfs',
+      title: 'adawolfs',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Container(),
+      home: const GameOfLife(),
     );
   }
 }
