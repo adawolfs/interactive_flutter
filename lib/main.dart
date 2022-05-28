@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_flutter/src/games/gameoflife/main.dart';
+import 'package:interactive_flutter/src/games/projectile/main.dart';
+import 'package:interactive_flutter/src/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +16,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const GameOfLife(),
+      routes: {
+        '/': (context) => Menu(),
+        MenuItems.gameOfLife.route: (context) => MenuItems.gameOfLife.widget,
+        MenuItems.projectile.route: (context) => MenuItems.projectile.widget,
+      },
+      // home: Menu(),
     );
   }
 }

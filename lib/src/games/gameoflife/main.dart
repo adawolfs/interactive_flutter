@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:interactive_flutter/src/games/gameoflife/provider.dart';
 import 'package:interactive_flutter/src/games/gameoflife/ui.dart';
+import 'package:interactive_flutter/src/ui/generic_scaffold.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GameOfLife extends StatelessWidget {
   const GameOfLife({Key? key}) : super(key: key);
@@ -23,21 +23,7 @@ class GameOfLife extends StatelessWidget {
     }
     int size = min(width, height) ~/ 20;
     double cellSize = min(width, height) / size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Game of Life', textAlign: TextAlign.center)),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.code),
-              onPressed: () async {
-                final Uri url = Uri.parse(
-                    'https://github.com/adawolfs/interactive_flutter');
-                await launchUrl(url);
-              })
-        ],
-      ),
-      extendBody: true,
-      backgroundColor: Colors.grey,
+    return GenericScaffold(
       body: Center(
         child: ChangeNotifierProvider(
           create: (context) =>
