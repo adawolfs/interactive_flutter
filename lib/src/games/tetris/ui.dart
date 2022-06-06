@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_flutter/src/games/tetrix/bloc.dart';
+import 'package:interactive_flutter/src/games/tetris/bloc.dart';
 
-class TetrixUI extends StatelessWidget {
-  const TetrixUI({Key? key}) : super(key: key);
+class TetrisUI extends StatelessWidget {
+  const TetrisUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TetrixBloc, TetrixState>(builder: (context, state) {
+    return BlocBuilder<TetrisBloc, TetrisState>(builder: (context, state) {
       FocusNode focusNode = FocusNode();
       FocusScope.of(context).requestFocus(focusNode);
-      return state is TetrixGameOver
+      return state is TetrisGameOver
           ? Center(
               child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,7 +20,7 @@ class TetrixUI extends StatelessWidget {
                 const Text('Game Over', style: TextStyle(fontSize: 30)),
                 GestureDetector(
                     onTap: () {
-                      BlocProvider.of<TetrixBloc>(context).add(TetrixRestart());
+                      BlocProvider.of<TetrisBloc>(context).add(TetrisRestart());
                     },
                     child: Icon(size: 50.0, Icons.refresh)),
               ],
@@ -29,13 +29,13 @@ class TetrixUI extends StatelessWidget {
               focusNode: focusNode,
               onKey: (event) {
                 if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-                  BlocProvider.of<TetrixBloc>(context).add(TetrixMoveLeft());
+                  BlocProvider.of<TetrisBloc>(context).add(TetrisMoveLeft());
                 } else if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-                  BlocProvider.of<TetrixBloc>(context).add(TetrixMoveRight());
+                  BlocProvider.of<TetrisBloc>(context).add(TetrisMoveRight());
                 } else if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-                  BlocProvider.of<TetrixBloc>(context).add(TetrixMoveDown());
+                  BlocProvider.of<TetrisBloc>(context).add(TetrisMoveDown());
                 } else if (event.isKeyPressed(LogicalKeyboardKey.space)) {
-                  BlocProvider.of<TetrixBloc>(context).add(TetrixRotate());
+                  BlocProvider.of<TetrisBloc>(context).add(TetrisRotate());
                 }
               },
               child: Container(

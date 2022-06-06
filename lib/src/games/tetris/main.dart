@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interactive_flutter/src/games/tetrix/bloc.dart';
-import 'package:interactive_flutter/src/games/tetrix/ui.dart';
+import 'package:interactive_flutter/src/games/tetris/bloc.dart';
+import 'package:interactive_flutter/src/games/tetris/ui.dart';
 import 'package:interactive_flutter/src/ui/generic_scaffold.dart';
 
-class Tetrix extends StatelessWidget {
-  const Tetrix({Key? key}) : super(key: key);
+class Tetris extends StatelessWidget {
+  const Tetris({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => TetrixBloc(),
+        create: (context) => TetrisBloc(),
         child: const GenericScaffold(
-          body: TetrixUI(),
+          body: TetrisUI(),
         ));
   }
 }

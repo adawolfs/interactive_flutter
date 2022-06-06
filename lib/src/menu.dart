@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_flutter/src/games/gameoflife/main.dart';
 import 'package:interactive_flutter/src/games/projectile/main.dart';
-import 'package:interactive_flutter/src/games/tetrix/main.dart';
+import 'package:interactive_flutter/src/games/tetris/main.dart';
 import 'package:interactive_flutter/src/ui/generic_scaffold.dart';
 
 enum MenuItems {
   gameOfLife(title: 'Game of Life', widget: GameOfLife(), route: '/gameoflife'),
   projectile(title: 'Projectile', widget: Projectile(), route: '/projectile'),
-  tetrix(title: 'Tetrix', widget: Tetrix(), route: '/tetrix');
+  tetris(title: 'Tetris', widget: Tetris(), route: '/tetris');
 
   const MenuItems(
       {required this.title,

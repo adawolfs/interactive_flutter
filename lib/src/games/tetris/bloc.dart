@@ -3,72 +3,72 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TetrixBloc extends Bloc<TetrixEvent, TetrixState> {
-  static TetrixShape getRandomShape() {
+class TetrisBloc extends Bloc<TetrisEvent, TetrisState> {
+  static TetrisShape getRandomShape() {
     // Get random number between 0 and 6 using date
     final random = Random(DateTime.now().millisecondsSinceEpoch).nextInt(7);
     switch (random) {
       case 0:
-        return TetrixShapeL(0, -3, 0);
+        return TetrisShapeL(0, -3, 0);
       case 1:
-        return TetrixShapeO(0, -3, 0);
+        return TetrisShapeO(0, -3, 0);
       case 2:
-        return TetrixShapeS(0, -3, 0);
+        return TetrisShapeS(0, -3, 0);
       case 3:
-        return TetrixShapeL(0, -3, 0).mirror();
+        return TetrisShapeL(0, -3, 0).mirror();
       case 4:
-        return TetrixShapeS(0, -3, 0).mirror();
+        return TetrisShapeS(0, -3, 0).mirror();
       case 5:
-        return TetrixShapeO(0, -3, 0);
+        return TetrisShapeO(0, -3, 0);
       case 6:
-        return TetrixShapeS(0, -3, 0);
+        return TetrisShapeS(0, -3, 0);
       default:
-        return TetrixShapeL(0, -3, 0);
+        return TetrisShapeL(0, -3, 0);
     }
   }
 
-  final stateHistory = <TetrixState>[];
-  TetrixBloc() : super(TetrixInitial(activeShape: getRandomShape())) {
-    on<TetrixEvent>((event, emit) {});
-    on<TetrixRestart>((event, emit) {
-      emit(TetrixInitial(activeShape: getRandomShape()));
-      add(TetrixRepaint());
+  final stateHistory = <TetrisState>[];
+  TetrisBloc() : super(TetrisInitial(activeShape: getRandomShape())) {
+    on<TetrisEvent>((event, emit) {});
+    on<TetrisRestart>((event, emit) {
+      emit(TetrisInitial(activeShape: getRandomShape()));
+      add(TetrisRepaint());
     });
-    on<TetrixRotate>((event, emit) {
-      var nextState = TetrixPaint(
+    on<TetrisRotate>((event, emit) {
+      var nextState = TetrisPaint(
           background: state.background,
           activeShape: state.activeShape.rotate());
       if (!nextState.hasColided) {
         emit(nextState);
       }
     });
-    on<TetrixMoveLeft>((event, emit) {
-      var nextState = TetrixPaint(
+    on<TetrisMoveLeft>((event, emit) {
+      var nextState = TetrisPaint(
           background: state.background,
           activeShape: state.activeShape.moveLeft());
       if (!nextState.hasColided) {
         emit(nextState);
       }
     });
-    on<TetrixMoveRight>((event, emit) {
-      var nextState = TetrixPaint(
+    on<TetrisMoveRight>((event, emit) {
+      var nextState = TetrisPaint(
           background: state.background,
           activeShape: state.activeShape.moveRight());
       if (!nextState.hasColided) {
         emit(nextState);
       }
     });
-    on<TetrixMoveDown>((event, emit) {
-      var nextState = TetrixPaint(
+    on<TetrisMoveDown>((event, emit) {
+      var nextState = TetrisPaint(
           background: state.background,
           activeShape: state.activeShape.moveDown());
       if (nextState.isGameOver()) {
-        emit(TetrixGameOver(
+        emit(TetrisGameOver(
             background: state.background, activeShape: state.activeShape));
         return;
       }
       if (nextState.hasColided) {
-        emit(TetrixPaint(
+        emit(TetrisPaint(
             background: stateHistory[stateHistory.length - 1].board,
             activeShape: getRandomShape(),
             cleanLines: true));
@@ -76,50 +76,50 @@ class TetrixBloc extends Bloc<TetrixEvent, TetrixState> {
         emit(nextState);
       }
     });
-    on<TetrixRepaint>((event, emit) {
+    on<TetrisRepaint>((event, emit) {
       Future.delayed(const Duration(milliseconds: 1000), () {
         if (!state.isGameOver()) {
-          add(TetrixRepaint());
+          add(TetrisRepaint());
         }
-        add(TetrixMoveDown());
+        add(TetrisMoveDown());
       });
     });
-    on<TetrixLoop>((event, emit) {});
-    add(TetrixRepaint());
+    on<TetrisLoop>((event, emit) {});
+    add(TetrisRepaint());
   }
 
   @override
-  void onTransition(Transition<TetrixEvent, TetrixState> transition) {
+  void onTransition(Transition<TetrisEvent, TetrisState> transition) {
     super.onTransition(transition);
     stateHistory.add(transition.nextState);
   }
 }
 
-abstract class TetrixEvent {}
+abstract class TetrisEvent {}
 
-class TetrixGameOver extends TetrixState {
-  TetrixGameOver({required super.background, required super.activeShape});
+class TetrisGameOver extends TetrisState {
+  TetrisGameOver({required super.background, required super.activeShape});
 }
 
-class TetrixRestart extends TetrixEvent {}
+class TetrisRestart extends TetrisEvent {}
 
-class TetrixRun extends TetrixEvent {}
+class TetrisRun extends TetrisEvent {}
 
-class TetrixLoop extends TetrixEvent {}
+class TetrisLoop extends TetrisEvent {}
 
-class TetrixMoveLeft extends TetrixEvent {}
+class TetrisMoveLeft extends TetrisEvent {}
 
-class TetrixMoveRight extends TetrixEvent {}
+class TetrisMoveRight extends TetrisEvent {}
 
-class TetrixMoveDown extends TetrixEvent {}
+class TetrisMoveDown extends TetrisEvent {}
 
-class TetrixRotate extends TetrixEvent {}
+class TetrisRotate extends TetrisEvent {}
 
-class TetrixRepaint extends TetrixEvent {}
+class TetrisRepaint extends TetrisEvent {}
 
 @immutable
-abstract class TetrixState {
-  late final TetrixShape activeShape;
+abstract class TetrisState {
+  late final TetrisShape activeShape;
   late final List<List<bool>> background;
   late final List<List<bool>> board;
   late final bool hasColided;
@@ -135,7 +135,7 @@ abstract class TetrixState {
     return isGameOver;
   }
 
-  TetrixState({
+  TetrisState({
     required this.background,
     required this.activeShape,
     cleanLines = false,
@@ -184,27 +184,27 @@ abstract class TetrixState {
   }
 }
 
-class TetrixInitial extends TetrixState {
-  TetrixInitial({required activeShape})
+class TetrisInitial extends TetrisState {
+  TetrisInitial({required activeShape})
       : super(
             background: List.generate(
                 20, (index) => List.generate(10, (index) => false)),
             activeShape: activeShape);
 }
 
-class TetrixPaint extends TetrixState {
-  TetrixPaint(
+class TetrisPaint extends TetrisState {
+  TetrisPaint(
       {required super.background,
       required super.activeShape,
       super.cleanLines = false});
 }
 
-class TetrixShape {
+class TetrisShape {
   late final List<List<bool>> shape;
   final int x;
   final int y;
   final int angle;
-  TetrixShape(this.x, this.y, this.angle, {newShape}) {
+  TetrisShape(this.x, this.y, this.angle, {newShape}) {
     if (newShape != null) {
       shape = newShape;
     } else {
@@ -226,12 +226,12 @@ class TetrixShape {
   }
 
   // Mirror the shape around the x axis
-  TetrixShape mirror() {
-    return TetrixShape(x, y, angle,
+  TetrisShape mirror() {
+    return TetrisShape(x, y, angle,
         newShape: shape.map((e) => e.toList()).toList().reversed.toList());
   }
 
-  TetrixShape rotate() {
+  TetrisShape rotate() {
     final newShape =
         List.generate(4, (index) => List.generate(4, (index) => false));
     for (var i = 0; i < 4; i++) {
@@ -239,27 +239,27 @@ class TetrixShape {
         newShape[i][j] = shape[j][3 - i];
       }
     }
-    return TetrixShape(x, y, (angle + 1) % 4, newShape: newShape);
+    return TetrisShape(x, y, (angle + 1) % 4, newShape: newShape);
   }
 
-  TetrixShape moveLeft() {
-    return TetrixShape(x - 1, y, angle, newShape: shape);
+  TetrisShape moveLeft() {
+    return TetrisShape(x - 1, y, angle, newShape: shape);
   }
 
-  TetrixShape moveRight() {
-    return TetrixShape(x + 1, y, angle, newShape: shape);
+  TetrisShape moveRight() {
+    return TetrisShape(x + 1, y, angle, newShape: shape);
   }
 
-  TetrixShape moveDown() {
-    return TetrixShape(x, y + 1, angle, newShape: shape);
+  TetrisShape moveDown() {
+    return TetrisShape(x, y + 1, angle, newShape: shape);
   }
 
-  TetrixShape moveUp() {
-    return TetrixShape(x, y - 1, angle, newShape: shape);
+  TetrisShape moveUp() {
+    return TetrisShape(x, y - 1, angle, newShape: shape);
   }
 
-  TetrixShape move(int x, int y) {
-    return TetrixShape(this.x + x, this.y + y, angle);
+  TetrisShape move(int x, int y) {
+    return TetrisShape(this.x + x, this.y + y, angle);
   }
 
   bool canMove(int x, int y) {
@@ -301,14 +301,14 @@ class TetrixShape {
   }
 }
 
-// Create a new class that extends TetrixShape and configure it with the shape
+// Create a new class that extends TetrisShape and configure it with the shape
 //  0 0 0 0
 //  0 x x 0
 //  x x 0 0
 //  0 0 0 0
 
-class TetrixShapeS extends TetrixShape {
-  TetrixShapeS(int x, int y, int angle) : super(x, y, angle) {
+class TetrisShapeS extends TetrisShape {
+  TetrisShapeS(int x, int y, int angle) : super(x, y, angle) {
     shape[0][2] = true;
     shape[1][1] = true;
     shape[1][2] = true;
@@ -316,14 +316,14 @@ class TetrixShapeS extends TetrixShape {
   }
 }
 
-// Create a new class that extends TetrixShape and configure it with the shape
+// Create a new class that extends TetrisShape and configure it with the shape
 //  0 0 0 0
 //  0 x 0 0
 //  x x x 0
 //  0 0 0 0
 
-class TetrixShapeT extends TetrixShape {
-  TetrixShapeT(int x, int y, int angle) : super(x, y, angle) {
+class TetrisShapeT extends TetrisShape {
+  TetrisShapeT(int x, int y, int angle) : super(x, y, angle) {
     shape[0][1] = true;
     shape[1][1] = true;
     shape[1][2] = true;
@@ -331,14 +331,14 @@ class TetrixShapeT extends TetrixShape {
   }
 }
 
-// Create a new class that extends TetrixShape and configure it with the shape
+// Create a new class that extends TetrisShape and configure it with the shape
 //  0 0 0 0
 //  0 x 0 0
 //  0 x 0 0
 //  0 x x 0
 
-class TetrixShapeL extends TetrixShape {
-  TetrixShapeL(int x, int y, int angle) : super(x, y, angle) {
+class TetrisShapeL extends TetrisShape {
+  TetrisShapeL(int x, int y, int angle) : super(x, y, angle) {
     shape[1][1] = true;
     shape[1][2] = true;
     shape[1][3] = true;
@@ -346,13 +346,13 @@ class TetrixShapeL extends TetrixShape {
   }
 }
 
-// Create a new class that extends TetrixShape and configure it with the shape
+// Create a new class that extends TetrisShape and configure it with the shape
 //  0 0 0 0
 //  0 x x 0
 //  0 x x 0
 //  0 0 0 0
-class TetrixShapeO extends TetrixShape {
-  TetrixShapeO(int x, int y, int angle) : super(x, y, angle) {
+class TetrisShapeO extends TetrisShape {
+  TetrisShapeO(int x, int y, int angle) : super(x, y, angle) {
     shape[1][1] = true;
     shape[1][2] = true;
     shape[2][1] = true;
