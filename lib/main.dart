@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => Menu(),
         MenuItems.gameOfLife.route: (context) => MenuItems.gameOfLife.widget,
         MenuItems.projectile.route: (context) => MenuItems.projectile.widget,
+        MenuItems.tetrix.route: (context) => MenuItems.tetrix.widget,
       },
       // home: Menu(),
     );
