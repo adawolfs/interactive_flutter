@@ -97,10 +97,6 @@ class TetrisBloc extends Bloc<TetrisEvent, TetrisState> {
 
 abstract class TetrisEvent {}
 
-class TetrisGameOver extends TetrisState {
-  TetrisGameOver({required super.background, required super.activeShape});
-}
-
 class TetrisRestart extends TetrisEvent {}
 
 class TetrisRun extends TetrisEvent {}
@@ -197,6 +193,10 @@ class TetrisPaint extends TetrisState {
       {required super.background,
       required super.activeShape,
       super.cleanLines = false});
+}
+
+class TetrisGameOver extends TetrisState {
+  TetrisGameOver({required super.background, required super.activeShape});
 }
 
 class TetrisShape {
