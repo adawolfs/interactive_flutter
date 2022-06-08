@@ -23,7 +23,7 @@ class TetrisUI extends StatelessWidget {
                     onTap: () {
                       BlocProvider.of<TetrisBloc>(context).add(TetrisRestart());
                     },
-                    child: const Icon(size: 50.0, Icons.refresh)),
+                    child: Icon(size: 50.0, Icons.refresh)),
               ],
             ))
           : LayoutBuilder(builder: (context, constraints) {
@@ -81,15 +81,15 @@ class TetrisUI extends StatelessWidget {
                                           BlocProvider.of<TetrisBloc>(context)
                                               .add(TetrisMoveLeft());
                                         },
-                                        child: const Icon(
-                                            size: 50.0, Icons.arrow_left),
+                                        child:
+                                            Icon(size: 50.0, Icons.arrow_left),
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           BlocProvider.of<TetrisBloc>(context)
                                               .add(TetrisRotate());
                                         },
-                                        child: const Icon(
+                                        child: Icon(
                                             size: 50.0,
                                             Icons.rotate_90_degrees_cw),
                                       ),
@@ -98,8 +98,8 @@ class TetrisUI extends StatelessWidget {
                                           BlocProvider.of<TetrisBloc>(context)
                                               .add(TetrisMoveRight());
                                         },
-                                        child: const Icon(
-                                            size: 50.0, Icons.arrow_right),
+                                        child:
+                                            Icon(size: 50.0, Icons.arrow_right),
                                       ),
                                     ],
                                   ),
@@ -108,8 +108,8 @@ class TetrisUI extends StatelessWidget {
                                       BlocProvider.of<TetrisBloc>(context)
                                           .add(TetrisMoveDown());
                                     },
-                                    child: const Icon(
-                                        size: 50.0, Icons.arrow_drop_down),
+                                    child:
+                                        Icon(size: 50.0, Icons.arrow_drop_down),
                                   )
                                 ],
                               )
